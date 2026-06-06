@@ -1,0 +1,27 @@
+# Environment
+.env
+venv/
+env/
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# Uploads (user data)
+uploads/
+recordings/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
