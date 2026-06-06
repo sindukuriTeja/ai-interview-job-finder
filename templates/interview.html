@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}AI Interview - In Progress{% endblock %}
+
+{% block head %}
+<script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6" id="interview-container">
+    <!-- Main Interview Area -->
+    <div class="lg:col-span-3">
+        <!-- Question Card -->
+        <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <span id="question-badge" class="px-3 py-1 bg-blue-600/20 text-blue-400 rounded-full text-sm font-medium">
+                        Question 1/10
+                    </span>
+                    <span id="difficulty-badge" class="px-3 py-1 bg-purple-600/20 text-purple-400 rounded-full text-sm font-medium">
+                        Medium
+                    </span>
+                    <span id="category-badge" class="px-3 py-1 bg-green-600/20 text-green-400 rounded-full text-sm font-medium">
+                        Technical
+                    </span>
+                </div>
+                <div id="question-timer" class="text-2xl font-mono text-gray-300">
+                    05:00
+                </div>
+            </div>
+
+            <h2 id="question-text" class="text-xl font-semibold leading-relaxed mb-8">
+                Loading questions...
+            </h2>
+
+            <div class="space-y-4">
+                <textarea id="answer-input" rows="6"
+                    class="w-full bg-gray-900 border border-gray-600 rounded-xl p-4 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 resize-none"
+                    placeholder="Type your answer here..."></textarea>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <button id="audio-record-btn" class="px-4 py-2 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition flex items-center space-x-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                                <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                            </svg>
+                            <span>Record Audio</span>
+                        </button>
+                        <span id="recording-indicator" class="hidden text-red-400 text-sm animate-pulse">Recording...</span>
+                    </div>
+
+                    <div class="flex items-center space-x-3">
+                        <button id="skip-btn" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                            Skip
+                        </button>
+                        <button id="submit-answer-btn" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition">
+                            Submit Answer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Card -->
+        <div id="feedback-card" class="hidden bg-gray-800 rounded-2xl p-6 border border-gray-700 mb-6">
+            <h3 class="font-semibold mb-3 text-green-400">Answer Feedback</h3>
+            <div class="grid grid-cols-4 gap-3 mb-4">
+                <div class="text-center p-3 bg-gray-900 rounded-lg">
+                    <div id="score-relevance" class="text-2xl font-bold text-blue-400">-</div>
+                    <div class="text-xs text-gray-500">Relevance</div>
+                </div>
+                <div class="text-center p-3 bg-gray-900 rounded-lg">
+                    <div id="score-completeness" class="text-2xl font-bold text-purple-400">-</div>
+                    <div class="text-xs text-gray-500">Completeness</div>
+                </div>
+                <div class="text-center p-3 bg-gray-900 rounded-lg">
+                    <div id="score-accuracy" class="text-2xl font-bold text-green-400">-</div>
+                    <div class="text-xs text-gray-500">Accuracy</div>
+                </div>
+                <div class="text-center p-3 bg-gray-900 rounded-lg">
+                    <div id="score-communication" class="text-2xl font-bold text-yellow-400">-</div>
+                    <div class="text-xs text-gray-500">Communication</div>
+                </div>
+            </div>
+            <p id="feedback-text" class="text-gray-300 text-sm"></p>
+            <button id="next-question-btn" class="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition">
+                Next Question
+            </button>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm text-gray-400">Interview Progress</span>
+                <span id="progress-text" class="text-sm text-gray-400">0/10 answered</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-2">
+                <div id="interview-progress-bar" class="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proctoring Sidebar -->
+    <div class="lg:col-span-1 space-y-4">
+        <!-- Video Feed -->
+        <div class="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-semibold text-gray-400">Camera Feed</h3>
+                <div id="camera-status" class="w-3 h-3 rounded-full bg-red-500"></div>
+            </div>
+            <div class="relative rounded-xl overflow-hidden bg-gray-900 aspect-video">
+                <video id="video-feed" autoplay muted playsinline class="w-full h-full object-cover"></video>
+                <canvas id="face-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+                <div id="no-camera-msg" class="absolute inset-0 flex items-center justify-center text-gray-500 text-sm">
+                    Initializing camera...
+                </div>
+            </div>
+        </div>
+
+        <!-- Proctoring Stats -->
+        <div class="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+            <h3 class="text-sm font-semibold text-gray-400 mb-3">Proctoring Monitor</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-300">Face Detected</span>
+                    <span id="face-status" class="text-sm font-medium text-red-400">No</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-300">Faces Count</span>
+                    <span id="face-count" class="text-sm font-medium text-gray-300">0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-300">Tab Switches</span>
+                    <span id="tab-switches" class="text-sm font-medium text-gray-300">0</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-300">Total Violations</span>
+                    <span id="total-violations" class="text-sm font-bold text-red-400">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Violation Alerts -->
+        <div class="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+            <h3 class="text-sm font-semibold text-gray-400 mb-3">Alerts</h3>
+            <div id="alerts-container" class="space-y-2 max-h-48 overflow-y-auto">
+                <p class="text-xs text-gray-500">No violations detected</p>
+            </div>
+        </div>
+
+        <!-- End Interview -->
+        <button id="end-interview-btn" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 rounded-xl font-semibold transition">
+            End Interview
+        </button>
+    </div>
+</div>
+
+<!-- Violation Warning Modal -->
+<div id="violation-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-8 max-w-md border border-red-500">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                </svg>
+            </div>
+            <h3 id="violation-title" class="text-xl font-bold text-red-400 mb-2">Warning</h3>
+            <p id="violation-message" class="text-gray-300 mb-6"></p>
+            <button onclick="document.getElementById('violation-modal').classList.add('hidden')"
+                class="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                Dismiss
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const INTERVIEW_ID = {{ interview_id }};
+</script>
+<script src="/static/js/proctoring.js"></script>
+<script src="/static/js/recorder.js"></script>
+<script src="/static/js/interview.js"></script>
+{% endblock %}

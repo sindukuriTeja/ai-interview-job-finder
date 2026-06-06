@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - AI Interview System{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+            <p class="text-gray-400 mt-1">Manage interviews and monitor system activity</p>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="/admin/api/audit-log" target="_blank" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition">
+                Audit Log
+            </a>
+            <a href="/admin/logout" class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition">
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">Total Candidates</div>
+            <div id="stat-candidates" class="text-2xl font-bold text-blue-400 mt-1">-</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">Total Interviews</div>
+            <div id="stat-interviews" class="text-2xl font-bold text-purple-400 mt-1">-</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">Completed</div>
+            <div id="stat-completed" class="text-2xl font-bold text-green-400 mt-1">-</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">In Progress</div>
+            <div id="stat-progress" class="text-2xl font-bold text-yellow-400 mt-1">-</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">Flagged</div>
+            <div id="stat-flagged" class="text-2xl font-bold text-orange-400 mt-1">-</div>
+        </div>
+        <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+            <div class="text-sm text-gray-400">Terminated</div>
+            <div id="stat-terminated" class="text-2xl font-bold text-red-400 mt-1">-</div>
+        </div>
+    </div>
+
+    <!-- Recent Interviews Table -->
+    <div class="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-700 flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Recent Interviews</h2>
+            <button onclick="loadDashboard()" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-sm transition">
+                Refresh
+            </button>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-gray-700 text-left text-sm text-gray-400">
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Candidate</th>
+                        <th class="px-6 py-3">Status</th>
+                        <th class="px-6 py-3">Score</th>
+                        <th class="px-6 py-3">Violations</th>
+                        <th class="px-6 py-3">Flags</th>
+                        <th class="px-6 py-3">Date</th>
+                        <th class="px-6 py-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="interviews-table">
+                    <tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">Loading...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Interview Detail Modal -->
+    <div id="detail-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div class="bg-gray-800 rounded-2xl p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto border border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold">Interview Details</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="detail-content"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+async function loadDashboard() {
+    try {
+        const response = await fetch('/admin/api/stats');
+        const data = await response.json();
+
+        document.getElementById('stat-candidates').textContent = data.stats.total_candidates;
+        document.getElementById('stat-interviews').textContent = data.stats.total_interviews;
+        document.getElementById('stat-completed').textContent = data.stats.completed;
+        document.getElementById('stat-progress').textContent = data.stats.in_progress;
+        document.getElementById('stat-flagged').textContent = data.stats.flagged;
+        document.getElementById('stat-terminated').textContent = data.stats.terminated;
+
+        const tbody = document.getElementById('interviews-table');
+        if (data.recent_interviews.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="px-6 py-8 text-center text-gray-500">No interviews yet</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = data.recent_interviews.map(i => {
+            const statusColors = {
+                'completed': 'bg-green-900 text-green-300',
+                'in_progress': 'bg-yellow-900 text-yellow-300',
+                'terminated': 'bg-red-900 text-red-300',
+                'pending': 'bg-gray-700 text-gray-300'
+            };
+            const statusClass = statusColors[i.status] || 'bg-gray-700 text-gray-300';
+            const flagIcon = i.is_flagged ? '<span class="text-orange-400" title="' + (i.flag_reason || 'Flagged') + '">⚠️</span>' : '';
+            const date = i.created_at ? new Date(i.created_at).toLocaleDateString() : '-';
+
+            return `
+                <tr class="border-b border-gray-700/50 hover:bg-gray-750">
+                    <td class="px-6 py-3 text-sm">#${i.id}</td>
+                    <td class="px-6 py-3">
+                        <div class="text-sm font-medium">${escapeHtml(i.candidate_name)}</div>
+                        <div class="text-xs text-gray-500">${escapeHtml(i.candidate_email)}</div>
+                    </td>
+                    <td class="px-6 py-3"><span class="px-2 py-1 rounded text-xs ${statusClass}">${i.status}</span></td>
+                    <td class="px-6 py-3 text-sm font-medium">${i.score ? Math.round(i.score) : '-'}</td>
+                    <td class="px-6 py-3 text-sm ${i.violations > 3 ? 'text-red-400' : ''}">${i.violations}</td>
+                    <td class="px-6 py-3 text-sm">${flagIcon}</td>
+                    <td class="px-6 py-3 text-sm text-gray-400">${date}</td>
+                    <td class="px-6 py-3">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="viewDetail(${i.id})" class="px-2 py-1 bg-blue-600/20 text-blue-400 rounded text-xs hover:bg-blue-600/30">View</button>
+                            <button onclick="toggleFlag(${i.id})" class="px-2 py-1 bg-orange-600/20 text-orange-400 rounded text-xs hover:bg-orange-600/30">${i.is_flagged ? 'Unflag' : 'Flag'}</button>
+                            ${i.status === 'in_progress' ? `<button onclick="terminateInterview(${i.id})" class="px-2 py-1 bg-red-600/20 text-red-400 rounded text-xs hover:bg-red-600/30">Terminate</button>` : ''}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    } catch (err) {
+        console.error('Failed to load dashboard:', err);
+    }
+}
+
+async function viewDetail(id) {
+    try {
+        const response = await fetch(`/admin/api/interview/${id}`);
+        const data = await response.json();
+
+        const content = document.getElementById('detail-content');
+        content.innerHTML = `
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-gray-900 rounded-lg p-4">
+                    <h4 class="text-sm text-gray-400 mb-2">Candidate</h4>
+                    <p class="font-medium">${escapeHtml(data.candidate.name)}</p>
+                    <p class="text-sm text-gray-400">${escapeHtml(data.candidate.email)}</p>
+                    <p class="text-sm text-gray-400">${data.candidate.experience_years} years exp.</p>
+                    <p class="text-xs text-gray-500 mt-1">IP: ${data.candidate.ip_address || 'N/A'}</p>
+                </div>
+                <div class="bg-gray-900 rounded-lg p-4">
+                    <h4 class="text-sm text-gray-400 mb-2">Interview</h4>
+                    <p class="font-medium">Score: ${data.interview.score ? Math.round(data.interview.score) : 'N/A'}</p>
+                    <p class="text-sm text-gray-400">Status: ${data.interview.status}</p>
+                    <p class="text-sm text-gray-400">Violations: ${data.interview.violations_count}</p>
+                    ${data.interview.flag_reason ? `<p class="text-sm text-orange-400 mt-1">Flag: ${escapeHtml(data.interview.flag_reason)}</p>` : ''}
+                </div>
+            </div>
+
+            <h4 class="font-semibold mb-3">Answers (${data.answers.length})</h4>
+            <div class="space-y-3 mb-6">
+                ${data.answers.map(a => `
+                    <div class="bg-gray-900 rounded-lg p-3">
+                        <div class="flex justify-between items-start">
+                            <p class="text-sm font-medium flex-1">${escapeHtml(a.question)}</p>
+                            <span class="text-sm font-bold ${a.overall_score >= 70 ? 'text-green-400' : a.overall_score >= 40 ? 'text-yellow-400' : 'text-red-400'}">${Math.round(a.overall_score)}</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-2">${escapeHtml(a.answer || 'No answer')}</p>
+                        ${a.paste_detected ? '<span class="text-xs text-orange-400">⚠️ Paste detected</span>' : ''}
+                        ${a.time_taken ? `<span class="text-xs text-gray-500 ml-2">${a.time_taken}s</span>` : ''}
+                    </div>
+                `).join('')}
+            </div>
+
+            ${data.violations.length > 0 ? `
+                <h4 class="font-semibold mb-3 text-red-400">Violations (${data.violations.length})</h4>
+                <div class="space-y-2">
+                    ${data.violations.map(v => `
+                        <div class="bg-gray-900 rounded-lg p-2 border-l-4 ${v.severity === 'high' ? 'border-red-500' : v.severity === 'medium' ? 'border-yellow-500' : 'border-gray-500'}">
+                            <span class="text-sm font-medium">${escapeHtml(v.type)}</span>
+                            <span class="text-xs text-gray-500 ml-2">${v.timestamp ? new Date(v.timestamp).toLocaleTimeString() : ''}</span>
+                            <p class="text-xs text-gray-400">${escapeHtml(v.description)}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : ''}
+
+            <div class="mt-6 flex justify-end">
+                <a href="/results/${id}" target="_blank" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition">
+                    View Full Report
+                </a>
+            </div>
+        `;
+
+        document.getElementById('detail-modal').classList.remove('hidden');
+    } catch (err) {
+        alert('Failed to load interview details');
+    }
+}
+
+function closeModal() {
+    document.getElementById('detail-modal').classList.add('hidden');
+}
+
+async function toggleFlag(id) {
+    const reason = prompt('Reason for flagging (leave empty for toggle):') || 'Flagged by admin';
+    try {
+        await fetch(`/admin/api/flag/${id}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reason })
+        });
+        loadDashboard();
+    } catch (err) {
+        alert('Failed to update flag');
+    }
+}
+
+async function terminateInterview(id) {
+    if (!confirm('Are you sure you want to terminate this interview?')) return;
+    try {
+        await fetch(`/admin/api/terminate/${id}`, { method: 'POST' });
+        loadDashboard();
+    } catch (err) {
+        alert('Failed to terminate interview');
+    }
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+document.addEventListener('DOMContentLoaded', loadDashboard);
+</script>
+{% endblock %}

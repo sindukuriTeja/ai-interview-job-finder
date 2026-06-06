@@ -1,0 +1,527 @@
+{% extends "base.html" %}
+
+{% block title %}InterviewAI - AI-Powered Interview & Job Search Platform | 2026{% endblock %}
+
+{% block content %}
+<!-- Floating Geometric Shapes (3D background elements) -->
+<div class="geo-shape geo-shape-1"></div>
+<div class="geo-shape geo-shape-2"></div>
+<div class="geo-shape geo-shape-3"></div>
+
+<!-- Hero Section — Ultra 3D -->
+<section class="hero-main py-16 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="hero-left">
+            <div class="hero-badge-main inline-flex items-center gap-2 px-5 py-2.5 rounded-full mb-6">
+                <span class="badge-glow-main"></span>
+                <span class="pulse-dot-green"></span>
+                <span class="text-cyan-300 text-sm font-medium tracking-wide">Launching 2026 — First AI Interview Startup</span>
+            </div>
+            <h1 class="font-['Space_Grotesk'] text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
+                Your Career,<br>
+                <span class="gradient-text-main">Fully Automated</span><br>
+                by AI
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl mb-8 max-w-lg leading-relaxed">
+                In 2026, everything is automatic. Upload your resume, take AI-driven interviews,
+                improve with every session, and find your dream job — all in one powerful platform.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                <a href="#upload-section" class="btn-cta-primary group">
+                    <span class="relative z-10 flex items-center gap-2">
+                        <svg class="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        Start Your Interview
+                    </span>
+                </a>
+                <a href="/jobs" class="btn-cta-secondary group">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-5 h-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        Search Jobs
+                    </span>
+                </a>
+            </div>
+            <div class="flex items-center gap-6 text-sm text-gray-400">
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+                    <span>AI Powered</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 bg-purple-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(168,85,247,0.5)]"></div>
+                    <span>Video Proctored</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]"></div>
+                    <span>Real-time Scoring</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-right relative">
+            <div class="hero-3d-scene">
+                <div class="floating-card-hero card-hero-1">
+                    <div class="card-icon-hero">&#129302;</div>
+                    <div>
+                        <div class="text-white font-semibold text-sm">AI Interview</div>
+                        <div class="text-gray-400 text-xs">10 tailored questions</div>
+                    </div>
+                </div>
+                <div class="floating-card-hero card-hero-2">
+                    <div class="card-icon-hero">&#128200;</div>
+                    <div>
+                        <div class="text-white font-semibold text-sm">Smart Scoring</div>
+                        <div class="text-gray-400 text-xs">4 AI metrics</div>
+                    </div>
+                </div>
+                <div class="floating-card-hero card-hero-3">
+                    <div class="card-icon-hero">&#127919;</div>
+                    <div>
+                        <div class="text-white font-semibold text-sm">Job Matching</div>
+                        <div class="text-gray-400 text-xs">31+ platforms</div>
+                    </div>
+                </div>
+                <div class="floating-card-hero card-hero-4">
+                    <div class="card-icon-hero">&#128640;</div>
+                    <div>
+                        <div class="text-white font-semibold text-sm">Career Growth</div>
+                        <div class="text-gray-400 text-xs">Learn & improve</div>
+                    </div>
+                </div>
+                <div class="hero-center-orb"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tech Stack Marquee -->
+<section class="py-8">
+    <div class="tech-scroll">
+        <div class="tech-track">
+            <span>AI/ML</span><span>Flask</span><span>Python</span><span>face-api.js</span>
+            <span>SQLAlchemy</span><span>Ollama</span><span>Firebase</span><span>TailwindCSS</span>
+            <span>Docker</span><span>WebRTC</span><span>NLP</span><span>Resume Parsing</span>
+            <span>Video Proctoring</span><span>Real-time Analytics</span><span>Multi-Platform Search</span>
+            <span>AI/ML</span><span>Flask</span><span>Python</span><span>face-api.js</span>
+            <span>SQLAlchemy</span><span>Ollama</span><span>Firebase</span><span>TailwindCSS</span>
+            <span>Docker</span><span>WebRTC</span><span>NLP</span><span>Resume Parsing</span>
+        </div>
+    </div>
+</section>
+
+<!-- About Our Startup Section -->
+<section class="py-16" id="about">
+    <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-6">
+            <span class="text-purple-300 text-sm font-medium">Our Scope of Work</span>
+        </div>
+        <h2 class="font-['Space_Grotesk'] text-4xl md:text-5xl font-bold mb-4">
+            Building the <span class="gradient-text-main">Future of Hiring</span>
+        </h2>
+        <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Our startup is revolutionizing how people prepare for jobs, take interviews, and find opportunities — completely powered by AI automation.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30">
+                    <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">AI Resume Parser</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Upload your resume and our AI instantly extracts skills, experience, education, and job titles to create personalized interviews.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">PDF</span>
+                    <span class="text-xs px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">DOCX</span>
+                    <span class="text-xs px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">NLP</span>
+                </div>
+            </div>
+        </div>
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30">
+                    <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">Video Proctoring</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Face detection, multi-face alerts, tab-switching monitoring, and copy-paste detection ensure interview integrity.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">face-api.js</span>
+                    <span class="text-xs px-2 py-1 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">WebRTC</span>
+                </div>
+            </div>
+        </div>
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">AI Evaluation</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Get scored on relevance, completeness, accuracy, and communication with instant AI feedback to improve.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-300 border border-green-500/20">Ollama</span>
+                    <span class="text-xs px-2 py-1 rounded bg-green-500/10 text-green-300 border border-green-500/20">LLM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/30">
+                    <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">Job Search Engine</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Search across 31+ platforms including LinkedIn, Indeed, Upwork, Fiverr — all from one unified interface.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">31+ APIs</span>
+                    <span class="text-xs px-2 py-1 rounded bg-yellow-500/10 text-yellow-300 border border-yellow-500/20">Real-time</span>
+                </div>
+            </div>
+        </div>
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-pink-500/20 to-rose-500/20 border border-pink-500/30">
+                    <svg class="w-8 h-8 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">Learn & Improve</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Take multiple interviews, track your progress, identify weak areas, and continuously improve with AI guidance.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20">Analytics</span>
+                    <span class="text-xs px-2 py-1 rounded bg-pink-500/10 text-pink-300 border border-pink-500/20">Tracking</span>
+                </div>
+            </div>
+        </div>
+        <div class="scope-card group">
+            <div class="scope-card-inner">
+                <div class="scope-icon bg-gradient-to-br from-indigo-500/20 to-violet-500/20 border border-indigo-500/30">
+                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mt-4 mb-2">Enterprise Security</h3>
+                <p class="text-gray-400 text-sm leading-relaxed">Rate limiting, input sanitization, audit logging, CORS protection, and enterprise-grade data security.</p>
+                <div class="mt-4 flex gap-2">
+                    <span class="text-xs px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">OWASP</span>
+                    <span class="text-xs px-2 py-1 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">Audit Log</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-16" id="how-it-works">
+    <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-6">
+            <span class="text-cyan-300 text-sm font-medium">Simple Process</span>
+        </div>
+        <h2 class="font-['Space_Grotesk'] text-4xl md:text-5xl font-bold mb-4">
+            How It <span class="gradient-text-main">Works</span>
+        </h2>
+        <p class="text-gray-400 text-lg">Three simple steps to ace your next interview</p>
+    </div>
+
+    <div class="steps-container">
+        <div class="step-item">
+            <div class="step-number-3d">
+                <span>1</span>
+            </div>
+            <div class="step-connector"></div>
+            <h3 class="text-xl font-bold mt-6 mb-2">Upload Resume</h3>
+            <p class="text-gray-400 text-sm">AI parses your skills, experience, and job titles automatically in seconds</p>
+        </div>
+        <div class="step-item">
+            <div class="step-number-3d step-purple">
+                <span>2</span>
+            </div>
+            <div class="step-connector"></div>
+            <h3 class="text-xl font-bold mt-6 mb-2">Take AI Interview</h3>
+            <p class="text-gray-400 text-sm">Answer 10 personalized questions with real-time video proctoring</p>
+        </div>
+        <div class="step-item">
+            <div class="step-number-3d step-green">
+                <span>3</span>
+            </div>
+            <h3 class="text-xl font-bold mt-6 mb-2">Get Results & Jobs</h3>
+            <p class="text-gray-400 text-sm">Receive instant AI scoring, feedback, and matched job opportunities</p>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16">
+    <div class="stats-glass-card">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="stat-item text-center">
+                <div class="stat-number font-['Space_Grotesk']" data-target="31">0</div>
+                <div class="text-gray-400 text-sm mt-1">Job Platforms</div>
+            </div>
+            <div class="stat-item text-center">
+                <div class="stat-number font-['Space_Grotesk']" data-target="10">0</div>
+                <div class="text-gray-400 text-sm mt-1">AI Questions</div>
+            </div>
+            <div class="stat-item text-center">
+                <div class="stat-number font-['Space_Grotesk']" data-target="4">0</div>
+                <div class="text-gray-400 text-sm mt-1">Score Metrics</div>
+            </div>
+            <div class="stat-item text-center">
+                <div class="stat-number font-['Space_Grotesk']" data-target="100">0</div>
+                <div class="text-gray-400 text-sm mt-1">% Automated</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upload Section -->
+<section class="py-16" id="upload-section">
+    <div class="max-w-3xl mx-auto">
+        <div class="upload-glass-card">
+            <div class="text-center mb-8">
+                <h2 class="font-['Space_Grotesk'] text-3xl font-bold mb-2">Upload Your Resume</h2>
+                <p class="text-gray-400">Start your AI-powered interview journey now</p>
+            </div>
+
+            <div id="drop-zone" class="upload-zone-main">
+                <div class="upload-3d-icon-main">
+                    <div class="upload-ring ring-1"></div>
+                    <div class="upload-ring ring-2"></div>
+                    <div class="upload-ring ring-3"></div>
+                    <svg class="w-16 h-16 text-cyan-400 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                </div>
+                <p class="text-lg text-gray-200 mb-2 font-medium">Drag & drop your resume here</p>
+                <p class="text-sm text-gray-500 mb-4">or click to browse your files</p>
+                <div class="flex justify-center gap-3">
+                    <span class="file-chip-main">PDF</span>
+                    <span class="file-chip-main">DOCX</span>
+                    <span class="file-chip-main">Max 16MB</span>
+                </div>
+                <input type="file" id="file-input" class="hidden" accept=".pdf,.docx">
+            </div>
+
+            <div id="upload-progress" class="hidden mt-6">
+                <div class="flex items-center justify-between mb-2">
+                    <span id="file-name" class="text-sm text-gray-300"></span>
+                    <span id="upload-status" class="text-sm text-cyan-400">Uploading...</span>
+                </div>
+                <div class="w-full bg-gray-800/50 rounded-full h-2.5 overflow-hidden backdrop-blur-sm">
+                    <div id="progress-bar" class="progress-bar-animated h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Resume Preview Section -->
+<div id="resume-preview" class="hidden max-w-3xl mx-auto mt-8">
+    <div class="upload-glass-card">
+        <h2 class="font-['Space_Grotesk'] text-2xl font-bold mb-6 flex items-center gap-3">
+            <span class="w-3 h-3 bg-green-400 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></span>
+            Resume Analysis Complete
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase mb-2 tracking-widest">Candidate</h3>
+                <p id="preview-name" class="text-xl font-bold"></p>
+                <p id="preview-email" class="text-gray-400 text-sm"></p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+                <h3 class="text-xs font-semibold text-gray-500 uppercase mb-2 tracking-widest">Experience</h3>
+                <p id="preview-experience" class="text-xl font-bold"></p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3 tracking-widest">Skills Detected</h3>
+            <div id="preview-skills" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3 tracking-widest">Job Titles</h3>
+            <div id="preview-titles" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase mb-3 tracking-widest">Education</h3>
+            <ul id="preview-education" class="list-disc list-inside text-gray-300 text-sm space-y-1"></ul>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button id="start-interview-btn" class="btn-cta-primary inline-flex items-center gap-2 text-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Start Interview
+            </button>
+            <p class="text-sm text-gray-500 mt-3">10 questions tailored to your profile</p>
+        </div>
+    </div>
+</div>
+
+<!-- Vision Section — Enhanced -->
+<section class="py-16">
+    <div class="vision-card">
+        <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-6">
+                    <span class="text-green-300 text-sm font-medium">Our Startup Vision</span>
+                </div>
+                <h2 class="font-['Space_Grotesk'] text-3xl md:text-4xl font-bold mb-5">The Year is 2026 — <span class="gradient-text-main">Everything is AI</span></h2>
+                <p class="text-gray-300 mb-4 leading-relaxed">
+                    We believe the future of hiring is fully automated. No more endless applications,
+                    no more unprepared interviews. Our AI handles everything — from parsing your resume
+                    to matching you with the perfect job across 31+ platforms.
+                </p>
+                <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                    This is our first startup, and we're building something that will change how millions
+                    of people find jobs and prepare for interviews. With continuous AI learning, every
+                    interview makes you better, smarter, and more confident.
+                </p>
+                <div class="flex gap-3">
+                    <div class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                        <div class="text-xl font-bold text-cyan-300">2026</div>
+                        <div class="text-xs text-gray-500">Founded</div>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                        <div class="text-xl font-bold text-purple-300">AI-First</div>
+                        <div class="text-xs text-gray-500">Approach</div>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                        <div class="text-xl font-bold text-green-300">Global</div>
+                        <div class="text-xs text-gray-500">Reach</div>
+                    </div>
+                </div>
+            </div>
+            <div class="vision-features">
+                <div class="vision-feature-item">
+                    <div class="w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_10px_rgba(34,211,238,0.5)]"></div>
+                    <span>Fully automated job search across 31+ platforms worldwide</span>
+                </div>
+                <div class="vision-feature-item">
+                    <div class="w-3 h-3 bg-purple-400 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
+                    <span>AI-powered interview practice with real-time scoring & feedback</span>
+                </div>
+                <div class="vision-feature-item">
+                    <div class="w-3 h-3 bg-green-400 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                    <span>Video proctoring for integrity and professional preparation</span>
+                </div>
+                <div class="vision-feature-item">
+                    <div class="w-3 h-3 bg-yellow-400 rounded-full shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
+                    <span>Take unlimited interviews — every session improves your skills</span>
+                </div>
+                <div class="vision-feature-item">
+                    <div class="w-3 h-3 bg-pink-400 rounded-full shadow-[0_0_10px_rgba(236,72,153,0.5)]"></div>
+                    <span>Track progress, analytics, and career growth over time</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 text-center">
+    <div class="cta-section-glass">
+        <h2 class="font-['Space_Grotesk'] text-4xl md:text-5xl font-bold mb-4">Ready to <span class="gradient-text-main">Transform</span> Your Career?</h2>
+        <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto">
+            Join the future of automated hiring. Upload your resume and let AI guide every step of your career journey.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#upload-section" class="btn-cta-primary">
+                <span class="relative z-10 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    Upload Resume Now
+                </span>
+            </a>
+            <a href="/jobs" class="btn-cta-secondary">
+                <span class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    Explore Job Opportunities
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/app.js"></script>
+<script>
+// Counter Animation with easing
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2500;
+        const startTime = performance.now();
+
+        function easeOutExpo(t) {
+            return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+        }
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutExpo(progress);
+            const current = Math.floor(target * easedProgress);
+
+            counter.textContent = current + (progress >= 1 ? (target === 100 ? '%' : '+') : '');
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    });
+}
+
+// Intersection Observer for scroll-triggered animations
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            if (entry.target.classList.contains('stats-glass-card')) {
+                animateCounters();
+            }
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.scope-card, .stats-glass-card, .step-item, .vision-card').forEach(el => {
+    observer.observe(el);
+});
+
+// Parallax effect on scroll for hero cards
+let ticking = false;
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            const heroCards = document.querySelectorAll('.floating-card-hero');
+            heroCards.forEach((card, i) => {
+                const speed = 0.03 * (i + 1);
+                card.style.transform = `translateY(${scrollY * speed}px) rotateY(${Math.sin(scrollY * 0.002 + i) * 5}deg)`;
+            });
+            ticking = false;
+        });
+        ticking = true;
+    }
+});
+
+// 3D Tilt effect on scope cards
+document.querySelectorAll('.scope-card-inner').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / centerY * -8;
+        const rotateY = (x - centerX) / centerX * 8;
+
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px) translateY(-12px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}Interview Results{% endblock %}
+
+{% block content %}
+<div id="results-container" class="max-w-5xl mx-auto">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold">Interview Results</h1>
+        <p class="text-gray-400 mt-2">Detailed performance analysis</p>
+    </div>
+
+    <!-- Loading -->
+    <div id="results-loading" class="text-center py-12">
+        <div class="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p class="text-gray-400">Loading results...</p>
+    </div>
+
+    <!-- Results Content -->
+    <div id="results-content" class="hidden space-y-6">
+        <!-- Flag Warning -->
+        <div id="flag-warning" class="hidden bg-orange-900/30 border border-orange-500/50 rounded-xl p-4">
+            <div class="flex items-center space-x-3">
+                <span class="text-orange-400 text-xl">⚠️</span>
+                <div>
+                    <p class="font-medium text-orange-300">This interview has been flagged</p>
+                    <p id="flag-reason" class="text-sm text-orange-400/70"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Overview -->
+        <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+                <div class="text-center">
+                    <div id="overall-score" class="text-5xl font-bold text-blue-400">0</div>
+                    <div class="text-sm text-gray-400 mt-1">Overall Score</div>
+                </div>
+                <div class="text-center">
+                    <div id="questions-answered" class="text-3xl font-bold text-green-400">0/0</div>
+                    <div class="text-sm text-gray-400 mt-1">Questions Answered</div>
+                </div>
+                <div class="text-center">
+                    <div id="violations-count" class="text-3xl font-bold text-red-400">0</div>
+                    <div class="text-sm text-gray-400 mt-1">Violations</div>
+                </div>
+                <div class="text-center">
+                    <div id="interview-duration" class="text-3xl font-bold text-purple-400">-</div>
+                    <div class="text-sm text-gray-400 mt-1">Duration</div>
+                </div>
+                <div class="text-center">
+                    <div id="interview-status" class="text-3xl font-bold text-gray-300">-</div>
+                    <div class="text-sm text-gray-400 mt-1">Status</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidate Info -->
+        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4">Candidate Profile</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <span class="text-sm text-gray-400">Name</span>
+                    <p id="result-name" class="font-medium"></p>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-400">Email</span>
+                    <p id="result-email" class="font-medium"></p>
+                </div>
+                <div>
+                    <span class="text-sm text-gray-400">Experience</span>
+                    <p id="result-experience" class="font-medium"></p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-sm text-gray-400">Skills</span>
+                <div id="result-skills" class="flex flex-wrap gap-2 mt-1"></div>
+            </div>
+        </div>
+
+        <!-- Score Breakdown -->
+        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4">Score Breakdown</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-900 rounded-xl p-4 text-center">
+                    <div class="text-sm text-gray-400 mb-1">Relevance</div>
+                    <div id="avg-relevance" class="text-2xl font-bold text-blue-400">0</div>
+                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                        <div id="bar-relevance" class="bg-blue-500 h-1.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 rounded-xl p-4 text-center">
+                    <div class="text-sm text-gray-400 mb-1">Completeness</div>
+                    <div id="avg-completeness" class="text-2xl font-bold text-purple-400">0</div>
+                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                        <div id="bar-completeness" class="bg-purple-500 h-1.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 rounded-xl p-4 text-center">
+                    <div class="text-sm text-gray-400 mb-1">Accuracy</div>
+                    <div id="avg-accuracy" class="text-2xl font-bold text-green-400">0</div>
+                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                        <div id="bar-accuracy" class="bg-green-500 h-1.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="bg-gray-900 rounded-xl p-4 text-center">
+                    <div class="text-sm text-gray-400 mb-1">Communication</div>
+                    <div id="avg-communication" class="text-2xl font-bold text-yellow-400">0</div>
+                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
+                        <div id="bar-communication" class="bg-yellow-500 h-1.5 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Per-Question Results -->
+        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4">Question-by-Question Analysis</h2>
+            <div id="questions-list" class="space-y-4"></div>
+        </div>
+
+        <!-- Proctoring Report -->
+        <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
+            <h2 class="text-lg font-semibold mb-4">Proctoring Report</h2>
+            <div id="violations-list" class="space-y-3">
+                <p class="text-gray-400 text-sm">No violations recorded.</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-center space-x-4 pb-8">
+            <a href="/" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-semibold transition">
+                New Interview
+            </a>
+            <a href="/history" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-xl font-semibold transition">
+                View History
+            </a>
+            <button onclick="window.print()" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold transition">
+                Print / Save PDF
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const INTERVIEW_ID = {{ interview_id }};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch(`/api/results/${INTERVIEW_ID}`);
+        const data = await response.json();
+
+        if (data.error) {
+            document.getElementById('results-loading').innerHTML = `<p class="text-red-400">${escapeHtml(data.error)}</p>`;
+            return;
+        }
+
+        document.getElementById('results-loading').classList.add('hidden');
+        document.getElementById('results-content').classList.remove('hidden');
+
+        // Flag warning
+        if (data.interview.is_flagged) {
+            document.getElementById('flag-warning').classList.remove('hidden');
+            document.getElementById('flag-reason').textContent = data.interview.flag_reason || 'Flagged for review';
+        }
+
+        // Overall scores
+        document.getElementById('overall-score').textContent = Math.round(data.interview.total_score || 0);
+        document.getElementById('questions-answered').textContent = `${data.interview.answers_count}/${data.interview.total_questions}`;
+        document.getElementById('violations-count').textContent = data.interview.violations_count || 0;
+
+        const statusEl = document.getElementById('interview-status');
+        statusEl.textContent = data.interview.status.charAt(0).toUpperCase() + data.interview.status.slice(1);
+        if (data.interview.status === 'terminated') statusEl.classList.add('text-red-400');
+        else if (data.interview.status === 'completed') statusEl.classList.add('text-green-400');
+
+        if (data.interview.duration) {
+            const mins = Math.floor(data.interview.duration / 60);
+            const secs = data.interview.duration % 60;
+            document.getElementById('interview-duration').textContent = `${mins}m ${secs}s`;
+        }
+
+        // Candidate info
+        document.getElementById('result-name').textContent = data.candidate.name;
+        document.getElementById('result-email').textContent = data.candidate.email || 'N/A';
+        document.getElementById('result-experience').textContent = `${data.candidate.experience_years} years`;
+
+        const skillsContainer = document.getElementById('result-skills');
+        (data.candidate.skills || []).forEach(skill => {
+            const tag = document.createElement('span');
+            tag.className = 'px-2 py-1 bg-blue-600/20 text-blue-400 rounded text-xs';
+            tag.textContent = skill;
+            skillsContainer.appendChild(tag);
+        });
+
+        // Score breakdown
+        if (data.answers.length > 0) {
+            const avgRelevance = data.answers.reduce((s, a) => s + a.scores.relevance, 0) / data.answers.length;
+            const avgCompleteness = data.answers.reduce((s, a) => s + a.scores.completeness, 0) / data.answers.length;
+            const avgAccuracy = data.answers.reduce((s, a) => s + a.scores.accuracy, 0) / data.answers.length;
+            const avgCommunication = data.answers.reduce((s, a) => s + a.scores.communication, 0) / data.answers.length;
+
+            document.getElementById('avg-relevance').textContent = avgRelevance.toFixed(1);
+            document.getElementById('avg-completeness').textContent = avgCompleteness.toFixed(1);
+            document.getElementById('avg-accuracy').textContent = avgAccuracy.toFixed(1);
+            document.getElementById('avg-communication').textContent = avgCommunication.toFixed(1);
+
+            document.getElementById('bar-relevance').style.width = `${avgRelevance * 10}%`;
+            document.getElementById('bar-completeness').style.width = `${avgCompleteness * 10}%`;
+            document.getElementById('bar-accuracy').style.width = `${avgAccuracy * 10}%`;
+            document.getElementById('bar-communication').style.width = `${avgCommunication * 10}%`;
+        }
+
+        // Questions list
+        const questionsContainer = document.getElementById('questions-list');
+        data.answers.forEach((a, i) => {
+            const scoreColor = a.scores.overall >= 70 ? 'text-green-400' : a.scores.overall >= 40 ? 'text-yellow-400' : 'text-red-400';
+            const pasteFlag = a.paste_detected ? '<span class="text-xs text-orange-400 ml-2">📋 Paste detected</span>' : '';
+            const timeInfo = a.time_taken ? `<span class="text-xs text-gray-500 ml-2">⏱ ${a.time_taken}s</span>` : '';
+
+            const div = document.createElement('div');
+            div.className = 'bg-gray-900 rounded-xl p-4';
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-2">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <span class="text-xs px-2 py-0.5 bg-gray-700 rounded">${escapeHtml(a.category)}</span>
+                            <span class="text-xs px-2 py-0.5 bg-gray-700 rounded">${escapeHtml(a.difficulty)}</span>
+                            ${pasteFlag}
+                            ${timeInfo}
+                        </div>
+                        <p class="font-medium text-sm">${escapeHtml(a.question)}</p>
+                    </div>
+                    <span class="text-2xl font-bold ${scoreColor} ml-4">${Math.round(a.scores.overall)}</span>
+                </div>
+                <div class="mt-3 p-3 bg-gray-800 rounded-lg">
+                    <p class="text-sm text-gray-300">${a.answer ? escapeHtml(a.answer) : '<em class="text-gray-500">No answer provided</em>'}</p>
+                </div>
+                <div class="mt-2 flex items-center space-x-4 text-xs text-gray-500">
+                    <span>Relevance: ${a.scores.relevance}/10</span>
+                    <span>Completeness: ${a.scores.completeness}/10</span>
+                    <span>Accuracy: ${a.scores.accuracy}/10</span>
+                    <span>Communication: ${a.scores.communication}/10</span>
+                </div>
+                ${a.feedback ? `<p class="mt-2 text-xs text-blue-300 italic">${escapeHtml(a.feedback)}</p>` : ''}
+            `;
+            questionsContainer.appendChild(div);
+        });
+
+        // Violations
+        if (data.violations.length > 0) {
+            const violationsContainer = document.getElementById('violations-list');
+            violationsContainer.innerHTML = '';
+            data.violations.forEach(v => {
+                const severityColor = v.severity === 'high' ? 'border-red-500' : v.severity === 'medium' ? 'border-yellow-500' : 'border-gray-500';
+                const div = document.createElement('div');
+                div.className = `p-3 bg-gray-900 rounded-lg border-l-4 ${severityColor}`;
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-medium text-sm">${escapeHtml(v.type)}</span>
+                        <span class="text-xs text-gray-500">${v.timestamp ? new Date(v.timestamp).toLocaleTimeString() : ''}</span>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">${escapeHtml(v.description)}</p>
+                `;
+                violationsContainer.appendChild(div);
+            });
+        }
+
+    } catch (err) {
+        document.getElementById('results-loading').innerHTML = `<p class="text-red-400">Failed to load results.</p>`;
+    }
+});
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - AI Interview System{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-20">
+    <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700">
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold">Admin Login</h1>
+            <p class="text-gray-400 mt-2">Access the interview management dashboard</p>
+        </div>
+
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Username</label>
+                <input type="text" id="username" name="username" required
+                    class="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter username" autocomplete="username">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-300 mb-1">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter password" autocomplete="current-password">
+            </div>
+            <div id="login-error" class="hidden text-red-400 text-sm text-center"></div>
+            <button type="submit" id="login-btn"
+                class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold transition">
+                Login
+            </button>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a href="/" class="text-sm text-gray-400 hover:text-gray-300">← Back to Interview System</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const errorEl = document.getElementById('login-error');
+    btn.disabled = true;
+    btn.textContent = 'Logging in...';
+    errorEl.classList.add('hidden');
+
+    try {
+        const response = await fetch('/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            window.location.href = data.redirect;
+        } else {
+            errorEl.textContent = data.error || 'Login failed';
+            errorEl.classList.remove('hidden');
+        }
+    } catch (err) {
+        errorEl.textContent = 'Connection error. Please try again.';
+        errorEl.classList.remove('hidden');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Login';
+});
+</script>
+{% endblock %}

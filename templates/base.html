@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}InterviewAI - The Future of Hiring{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-[#02020b] text-white min-h-screen font-['Inter'] overflow-x-hidden">
+    <!-- Multi-layer Animated Background -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <canvas id="bgParticleCanvas" class="absolute inset-0 w-full h-full"></canvas>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Floating 3D Grid Lines (background depth) -->
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.015]" style="
+        background-image:
+            linear-gradient(rgba(34, 211, 238, 0.3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(34, 211, 238, 0.3) 1px, transparent 1px);
+        background-size: 80px 80px;
+        transform: perspective(500px) rotateX(60deg);
+        transform-origin: center top;
+        mask-image: linear-gradient(to bottom, black 0%, transparent 50%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 50%);
+    "></div>
+
+    <!-- Navigation — Deep Glassmorphism -->
+    <nav class="sticky top-4 z-50 mx-auto max-w-7xl px-4">
+        <div class="nav-glass flex items-center justify-between px-6 py-4 rounded-2xl">
+            <a href="/" class="flex items-center space-x-3 group">
+                <div class="logo-3d-wrapper">
+                    <div class="logo-cube-nav">
+                        <div class="cube-face-nav front-nav">AI</div>
+                        <div class="cube-face-nav back-nav">PRO</div>
+                    </div>
+                </div>
+                <span class="font-['Space_Grotesk'] text-xl font-bold text-white group-hover:text-cyan-300 transition-all duration-300">
+                    InterviewAI<span class="text-[0.55rem] bg-gradient-to-r from-cyan-400 to-purple-500 px-1.5 py-0.5 rounded ml-1.5 align-super tracking-wider font-bold">2026</span>
+                </span>
+            </a>
+            <div class="flex items-center space-x-1">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/jobs" class="nav-link">Job Search</a>
+                <a href="/history" class="nav-link">History</a>
+                <a href="/admin/login" class="nav-link">Admin</a>
+                <span id="ollama-status" class="ai-status-pill ml-3">
+                    Checking AI...
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-7xl mx-auto px-6 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="relative z-10 border-t border-white/[0.04] mt-16 py-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 items-center">
+                <div>
+                    <div class="font-['Space_Grotesk'] font-bold text-xl mb-1 flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-xs font-bold">AI</div>
+                        InterviewAI
+                    </div>
+                    <p class="text-gray-500 text-sm">The future of automated hiring, powered by AI.</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-gray-400 text-sm">AI Interview &bull; Job Search &bull; Video Proctoring &bull; Smart Scoring</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-gray-600 text-xs">&copy; 2026 InterviewAI Startup. All rights reserved.</p>
+                    <p class="text-gray-700 text-xs mt-1">Built with AI for the AI era</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        fetch('/check-ollama')
+            .then(r => r.json())
+            .then(data => {
+                const el = document.getElementById('ollama-status');
+                if (data.available) {
+                    el.textContent = `AI: ${data.model}`;
+                    el.className = 'ai-status-pill ai-online ml-3';
+                } else {
+                    el.textContent = 'AI: Rule-Based';
+                    el.className = 'ai-status-pill ai-fallback ml-3';
+                }
+            })
+            .catch(() => {
+                const el = document.getElementById('ollama-status');
+                el.textContent = 'AI: Rule-Based';
+                el.className = 'ai-status-pill ai-fallback ml-3';
+            });
+    </script>
+    <script src="/static/js/particles-bg.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
