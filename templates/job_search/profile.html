@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - JobHunter Pro</title>
+    <link rel="stylesheet" href="/static/job_search/css/style.css">
+    <link rel="stylesheet" href="/static/job_search/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-animation">
+        <canvas id="particleCanvas"></canvas>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <nav class="floating-nav">
+            <div class="nav-brand">
+                <a href="/dashboard" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;">
+                    <div class="logo-3d">
+                        <div class="logo-cube">
+                            <div class="cube-face front">JH</div>
+                            <div class="cube-face back">PRO</div>
+                            <div class="cube-face top"></div>
+                            <div class="cube-face bottom"></div>
+                        </div>
+                    </div>
+                    <span class="brand-text">JobHunter<span class="pro-badge">PRO</span></span>
+                </a>
+            </div>
+            <div class="nav-user-section">
+                <a href="/dashboard" class="nav-btn nav-btn-outline">Back to Search</a>
+                <button class="nav-btn nav-btn-danger" id="logoutBtn">Log Out</button>
+            </div>
+        </nav>
+
+        <section class="section-card" style="margin-top: 2rem;">
+            <div class="section-inner">
+                <div class="profile-page-header">
+                    <div class="profile-avatar-large" id="profileAvatarLarge">
+                        <img id="profilePhoto" src="" alt="Profile" style="display:none;">
+                        <span id="profileInitialLarge" class="profile-initial-large"></span>
+                    </div>
+                    <div class="profile-info-main">
+                        <h1 id="profileName" class="profile-name-large">{{ user.displayName or 'User' }}</h1>
+                        <p id="profileEmail" class="profile-email-text">{{ user.email }}</p>
+                        <div class="profile-provider-badge">
+                            <span id="profileProvider" class="provider-pill">{{ user.provider }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-details-grid">
+                    <div class="profile-detail-card">
+                        <h3>Account Information</h3>
+                        <div class="detail-row">
+                            <span class="detail-label">Full Name</span>
+                            <span class="detail-value" id="detailName">{{ user.displayName or 'Not set' }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value" id="detailEmail">{{ user.email }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Auth Provider</span>
+                            <span class="detail-value" id="detailProvider">{{ user.provider }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">User ID</span>
+                            <span class="detail-value detail-uid" id="detailUid">{{ user.uid[:12] }}...</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-detail-card">
+                        <h3>Quick Actions</h3>
+                        <a href="/dashboard" class="profile-action-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                            Search Jobs
+                        </a>
+                        <button class="profile-action-btn danger" id="deleteAccountBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/job_search/js/particles.js"></script>
+    <script type="module" src="/static/job_search/js/profile.js"></script>
+</body>
+</html>

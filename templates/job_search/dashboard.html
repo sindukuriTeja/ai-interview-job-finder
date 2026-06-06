@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - JobHunter Pro</title>
+    <link rel="stylesheet" href="/static/job_search/css/style.css">
+    <link rel="stylesheet" href="/static/job_search/css/auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bg-animation">
+        <canvas id="particleCanvas"></canvas>
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <div class="app-container">
+        <nav class="floating-nav">
+            <div class="nav-brand">
+                <div class="logo-3d">
+                    <div class="logo-cube">
+                        <div class="cube-face front">JH</div>
+                        <div class="cube-face back">PRO</div>
+                        <div class="cube-face top"></div>
+                        <div class="cube-face bottom"></div>
+                    </div>
+                </div>
+                <span class="brand-text">JobHunter<span class="pro-badge">PRO</span></span>
+            </div>
+            <div class="nav-user-section">
+                <div class="stat-pill">
+                    <span class="pulse-dot"></span>
+                    <span>Live Search</span>
+                </div>
+                <div class="stat-pill time-pill">
+                    <span class="time-label">Live Time</span>
+                    <span id="liveTime">00:00:00</span>
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <button class="user-avatar-btn" id="userAvatarBtn">
+                        <img id="userAvatar" src="" alt="User" class="user-avatar-img">
+                        <span id="userInitial" class="user-initial"></span>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <img id="dropdownAvatar" src="" alt="" class="dropdown-avatar">
+                            <div class="dropdown-user-info">
+                                <span id="dropdownName" class="dropdown-name"></span>
+                                <span id="dropdownEmail" class="dropdown-email"></span>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="/profile" class="dropdown-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            My Profile
+                        </a>
+                        <a href="/dashboard" class="dropdown-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="M21 21l-4.35-4.35"></path>
+                            </svg>
+                            Job Search
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item logout-item" id="logoutBtn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            Log Out
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="hero-section" style="padding: 2rem 0;">
+            <div class="hero-content">
+                <h1 class="hero-title" style="font-size: 2.4rem;">
+                    Welcome back, <span class="gradient-text" id="welcomeName">User</span>
+                </h1>
+                <p class="hero-subtitle">Upload your resume and discover opportunities across 31+ platforms</p>
+            </div>
+        </header>
+
+        <!-- Step 1: Resume Upload -->
+        <section class="section-card upload-section" id="uploadSection">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="step-indicator">
+                        <div class="step-number">1</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Upload Your Resume</h2>
+                        <p class="section-desc">Our AI analyzes your skills, experience & domain to find perfect matches</p>
+                    </div>
+                </div>
+
+                <div class="upload-zone" id="uploadArea">
+                    <div class="upload-3d-icon">
+                        <div class="doc-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="18" x2="12" y2="12"></line>
+                                <polyline points="9 15 12 12 15 15"></polyline>
+                            </svg>
+                        </div>
+                        <div class="upload-rings">
+                            <div class="ring ring-1"></div>
+                            <div class="ring ring-2"></div>
+                            <div class="ring ring-3"></div>
+                        </div>
+                    </div>
+                    <h3>Drag & drop your resume here</h3>
+                    <p>or click to browse files</p>
+                    <div class="file-chips">
+                        <span class="chip">PDF</span>
+                        <span class="chip">DOCX</span>
+                        <span class="chip">TXT</span>
+                    </div>
+                    <input type="file" id="resumeInput" accept=".pdf,.docx,.doc,.txt" hidden>
+                </div>
+
+                <div class="file-selected" id="fileSelected" style="display:none;">
+                    <div class="file-info-card">
+                        <div class="file-icon-wrapper">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                        </div>
+                        <div class="file-details">
+                            <span id="fileName" class="file-name"></span>
+                            <span class="file-ready">Ready to analyze</span>
+                        </div>
+                        <button class="remove-file" id="removeFile">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="analyzeBtn" class="btn-primary btn-glow" disabled>
+                    <span class="btn-text">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="M21 21l-4.35-4.35"></path>
+                        </svg>
+                        Analyze My Resume
+                    </span>
+                    <span class="btn-loader" style="display:none;">
+                        <div class="loader-dots"><span></span><span></span><span></span></div>
+                        Analyzing...
+                    </span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Profile Summary & Search -->
+        <section class="section-card profile-section" id="profileSection" style="display:none;">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="step-indicator">
+                        <div class="step-number">2</div>
+                        <div class="step-line"></div>
+                    </div>
+                    <div>
+                        <h2 class="section-title">Your Profile Analysis</h2>
+                        <p class="section-desc">AI-powered skill detection & job matching</p>
+                    </div>
+                </div>
+
+                <div class="profile-glass" id="profileSummary"></div>
+
+                <div class="skills-grid" id="skillsContainer"></div>
+
+                <div class="roles-section">
+                    <h3 class="roles-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Recommended Searches
+                    </h3>
+                    <div id="suggestedRoles" class="roles-list"></div>
+                </div>
+
+                <div class="search-panel">
+                    <div class="mode-selector">
+                        <h4>What are you looking for?</h4>
+                        <div class="mode-grid">
+                            <button class="mode-card active" data-mode="both">
+                                <div class="mode-icon">&#127760;</div>
+                                <span>All</span>
+                            </button>
+                            <button class="mode-card" data-mode="jobs">
+                                <div class="mode-icon">&#128188;</div>
+                                <span>Jobs</span>
+                            </button>
+                            <button class="mode-card" data-mode="freelance">
+                                <div class="mode-icon">&#128187;</div>
+                                <span>Freelance</span>
+                            </button>
+                            <button class="mode-card" data-mode="clients">
+                                <div class="mode-icon">&#129309;</div>
+                                <span>Clients</span>
+                            </button>
+                            <button class="mode-card" data-mode="influencers">
+                                <div class="mode-icon">&#11088;</div>
+                                <span>Influencers</span>
+                            </button>
+                            <button class="mode-card" data-mode="sponsors">
+                                <div class="mode-icon">&#128176;</div>
+                                <span>Sponsors</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="search-input-group">
+                        <div class="input-3d">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <input type="text" id="locationInput" placeholder="Location (optional) e.g., New York, Remote...">
+                        </div>
+                    </div>
+
+                    <button id="searchBtn" class="btn-primary btn-glow btn-large">
+                        <span class="btn-text">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="13 17 18 12 13 7"></polyline>
+                                <polyline points="6 17 11 12 6 7"></polyline>
+                            </svg>
+                            Find Matching Opportunities
+                        </span>
+                        <span class="btn-loader" style="display:none;">
+                            <div class="loader-dots"><span></span><span></span><span></span></div>
+                            Searching 31 platforms...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Results -->
+        <section class="section-card results-section" id="resultsSection" style="display:none;">
+            <div class="section-inner">
+                <div class="section-header">
+                    <div class="step-indicator">
+                        <div class="step-number">3</div>
+                    </div>
+                    <div>
+                        <h2 class="section-title" id="resultsTitle">Results</h2>
+                        <p class="section-desc" id="resultCount"></p>
+                    </div>
+                </div>
+
+                <div class="filter-bar" id="filterTabs">
+                    <button class="filter-chip active" data-source="all">All</button>
+                    <button class="filter-chip job-filter" data-source="Google Jobs">Google</button>
+                    <button class="filter-chip job-filter" data-source="LinkedIn">LinkedIn</button>
+                    <button class="filter-chip job-filter" data-source="Indeed">Indeed</button>
+                    <button class="filter-chip job-filter" data-source="Glassdoor">Glassdoor</button>
+                    <button class="filter-chip job-filter" data-source="RemoteOK">RemoteOK</button>
+                    <button class="filter-chip freelance-filter" data-source="Upwork">Upwork</button>
+                    <button class="filter-chip freelance-filter" data-source="Freelancer">Freelancer</button>
+                    <button class="filter-chip freelance-filter" data-source="Fiverr">Fiverr</button>
+                    <button class="filter-chip freelance-filter" data-source="Toptal">Toptal</button>
+                    <button class="filter-chip freelance-filter" data-source="Guru">Guru</button>
+                    <button class="filter-chip client-filter" data-source="AngelList">AngelList</button>
+                    <button class="filter-chip client-filter" data-source="ProductHunt">ProductHunt</button>
+                    <button class="filter-chip client-filter" data-source="Craigslist">Craigslist</button>
+                    <button class="filter-chip client-filter" data-source="PeoplePerHour">PeoplePerHour</button>
+                    <button class="filter-chip client-filter" data-source="Contra">Contra</button>
+                    <button class="filter-chip client-filter" data-source="99designs">99designs</button>
+                    <button class="filter-chip influencer-filter" data-source="YouTube">YouTube</button>
+                    <button class="filter-chip influencer-filter" data-source="TikTok">TikTok</button>
+                    <button class="filter-chip influencer-filter" data-source="Instagram">Instagram</button>
+                    <button class="filter-chip influencer-filter" data-source="IMHub">IMHub</button>
+                    <button class="filter-chip influencer-filter" data-source="Heepsy">Heepsy</button>
+                    <button class="filter-chip influencer-filter" data-source="Upfluence">Upfluence</button>
+                    <button class="filter-chip influencer-filter" data-source="Collabstr">Collabstr</button>
+                    <button class="filter-chip sponsor-filter" data-source="SponsorSearch">SponsorSearch</button>
+                    <button class="filter-chip sponsor-filter" data-source="Grapevine">Grapevine</button>
+                    <button class="filter-chip sponsor-filter" data-source="Aspire">Aspire</button>
+                    <button class="filter-chip sponsor-filter" data-source="Brandbassador">Brandbassador</button>
+                    <button class="filter-chip sponsor-filter" data-source="IZEA">IZEA</button>
+                    <button class="filter-chip sponsor-filter" data-source="HashtagPaid">#paid</button>
+                    <button class="filter-chip sponsor-filter" data-source="BrandConnect">BrandConnect</button>
+                    <button class="filter-chip sponsor-filter" data-source="SponsorGap">SponsorGap</button>
+                </div>
+
+                <div class="jobs-grid" id="jobsGrid"></div>
+            </div>
+        </section>
+
+        <section class="empty-state" id="emptyState" style="display:none;">
+            <div class="empty-3d">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 7h-4l-2-3H6L4 7H2v13h18V7z"></path>
+                    <path d="M12 11v5"></path>
+                    <path d="M9.5 13.5h5"></path>
+                </svg>
+            </div>
+            <h3>No matching results found</h3>
+            <p>Try adjusting your location or search mode</p>
+        </section>
+
+        <footer class="footer-glass">
+            <div class="footer-content">
+                <div class="footer-brand">JobHunter Pro</div>
+                <p>Real-time search across <strong>31 platforms</strong> — Jobs, Freelance, Influencers & Sponsors</p>
+                <p class="footer-note">All links direct you to original postings on their respective platforms.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/job_search/js/particles.js"></script>
+    <script src="/static/job_search/js/app.js"></script>
+    <script type="module" src="/static/job_search/js/dashboard.js"></script>
+</body>
+</html>
